@@ -1,10 +1,14 @@
 # Student Math Score Predictor
 
-**Mission:** Predict a student's math score using academic and socioeconomic features to help educators identify students who may need additional support in mathematics.
+**Mission:** Build a regression model to predict a student’s math score using academic and socioeconomic features in order to help educators identify students who may need additional academic support.
 
-**Dataset:** [Students Performance in Exams](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams) from Kaggle — 1,000 student records with 8 features including gender, parental education level, lunch type, test preparation status, reading score, and writing score.
+**Dataset:** [Students Performance in Exams](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams) from Kaggle. The dataset contains 1,000 student records and 8 variables including gender, parental level of education, lunch type, test preparation course, reading score, writing score, and math score.
 
-**Models:** Linear Regression, Decision Tree, and Random Forest regressors are trained and compared. The best-performing model (lowest test MSE) is saved and used for prediction.
+**Problem:** Predict the continuous variable `math_score` using multiple input features through regression analysis.
+
+**Models:** Linear Regression, Decision Tree Regressor, and Random Forest Regressor are trained using scikit-learn. The model with the lowest test Mean Squared Error (MSE) is saved and used for prediction.
+
+---
 
 ## Repository Structure
 
