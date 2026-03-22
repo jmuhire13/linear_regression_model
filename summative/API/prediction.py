@@ -25,7 +25,7 @@ app = FastAPI(
 )
 
 # ---------------------------------------------------------------------------
-# CORS — specific origins, NOT wildcard *
+# CORS — specific origins + regex for Flutter localhost debug ports
 # ---------------------------------------------------------------------------
 allowed_origins = [
     "http://localhost",
@@ -33,12 +33,13 @@ allowed_origins = [
     "http://localhost:8080",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "https://math-score-predictor.onrender.com",
+    "https://math-score-predictor-d8z2.onrender.com",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "Authorization", "Accept"],
