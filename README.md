@@ -10,6 +10,17 @@
 
 ---
 
+**API Endpoint:** https://math-score-predictor-d8z2.onrender.com/predict
+**Swagger UI:** https://math-score-predictor-d8z2.onrender.com/docs
+**Video Demo:** https://youtu.be/2ez8jhAssXU
+
+## How to run the mobile app
+
+1. Navigate to the summative/FlutterApp directory.
+2. Run Flutter pub get and then Flutter run.
+
+---
+
 ## Repository Structure
 
 ```

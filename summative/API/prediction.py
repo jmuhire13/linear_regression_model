@@ -12,9 +12,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-# ---------------------------------------------------------------------------
-# App setup
-# ---------------------------------------------------------------------------
 app = FastAPI(
     title="Student Math Score Predictor API",
     description=(
@@ -24,9 +21,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# ---------------------------------------------------------------------------
-# CORS — specific origins + regex for Flutter localhost debug ports
-# ---------------------------------------------------------------------------
 allowed_origins = [
     "http://localhost",
     "http://localhost:3000",
@@ -45,9 +39,6 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "Accept"],
 )
 
-# ---------------------------------------------------------------------------
-# Load model artifacts
-# ---------------------------------------------------------------------------
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "linear_regression")
 
 
@@ -61,9 +52,6 @@ def load_artifacts():
 
 model, scaler, feature_columns = load_artifacts()
 
-# ---------------------------------------------------------------------------
-# Enums for categorical validation
-# ---------------------------------------------------------------------------
 
 class GenderEnum(str, Enum):
     female = "female"
@@ -89,9 +77,6 @@ class ParentalEducationEnum(str, Enum):
     masters_degree = "master's degree"
 
 
-# ---------------------------------------------------------------------------
-# Pydantic request / response models with constraints & datatypes
-# ---------------------------------------------------------------------------
 
 class PredictionRequest(BaseModel):
     """Input features for predicting a student's math score."""
@@ -164,9 +149,6 @@ class RetrainResponse(BaseModel):
     best_model_name: str
 
 
-# ---------------------------------------------------------------------------
-# Encoding maps (must match the notebook)
-# ---------------------------------------------------------------------------
 GENDER_MAP = {"female": 0, "male": 1}
 LUNCH_MAP = {"free/reduced": 0, "standard": 1}
 TEST_PREP_MAP = {"none": 0, "completed": 1}
@@ -198,15 +180,11 @@ def encode_input(req: PredictionRequest) -> np.ndarray:
             }
         ]
     )
-    # Ensure column order matches training
     raw = raw[feature_columns]
     scaled = scaler.transform(raw)
     return scaled
 
 
-# ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
 
 @app.get("/", tags=["Health"])
 def root():
@@ -255,7 +233,6 @@ def retrain():
 
         df = pd.read_csv(csv_path)
 
-        # --- same pipeline as the notebook ---
         df.drop(columns=["race/ethnicity"], inplace=True, errors="ignore")
         df["gender"] = df["gender"].map({"female": 0, "male": 1})
         df["lunch"] = df["lunch"].map({"free/reduced": 0, "standard": 1})
@@ -312,7 +289,6 @@ def retrain():
             os.path.join(MODEL_DIR, "feature_columns.pkl"),
         )
 
-        # Hot-reload
         model, scaler, feature_columns = load_artifacts()
 
         return RetrainResponse(

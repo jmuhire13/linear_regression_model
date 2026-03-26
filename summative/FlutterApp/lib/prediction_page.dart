@@ -10,28 +10,17 @@ class PredictionPage extends StatefulWidget {
 }
 
 class _PredictionPageState extends State<PredictionPage> {
-  // -----------------------------------------------------------------------
-  // API base URL — change this to your deployed URL
-  // -----------------------------------------------------------------------
-  static const String apiBaseUrl = 'https://math-score-predictor-d8z2.onrender.com';
+  static const String apiBaseUrl =
+      'https://math-score-predictor-d8z2.onrender.com';
 
-  // -----------------------------------------------------------------------
-  // Controllers for numeric text fields
-  // -----------------------------------------------------------------------
   final TextEditingController _readingScoreController = TextEditingController();
   final TextEditingController _writingScoreController = TextEditingController();
 
-  // -----------------------------------------------------------------------
-  // Dropdown values
-  // -----------------------------------------------------------------------
   String _selectedGender = 'female';
   String _selectedLunch = 'standard';
   String _selectedTestPrep = 'none';
   String _selectedParentalEdu = "bachelor's degree";
 
-  // -----------------------------------------------------------------------
-  // Dropdown option lists
-  // -----------------------------------------------------------------------
   final List<String> _genderOptions = ['female', 'male'];
   final List<String> _lunchOptions = ['standard', 'free/reduced'];
   final List<String> _testPrepOptions = ['none', 'completed'];
@@ -44,19 +33,12 @@ class _PredictionPageState extends State<PredictionPage> {
     "master's degree",
   ];
 
-  // -----------------------------------------------------------------------
-  // State
-  // -----------------------------------------------------------------------
   String? _predictionResult;
   String? _modelUsed;
   bool _isLoading = false;
   String? _errorMessage;
 
-  // -----------------------------------------------------------------------
-  // API call
-  // -----------------------------------------------------------------------
   Future<void> _predict() async {
-    // Validate numeric inputs
     final readingText = _readingScoreController.text.trim();
     final writingText = _writingScoreController.text.trim();
 
@@ -127,9 +109,6 @@ class _PredictionPageState extends State<PredictionPage> {
     }
   }
 
-  // -----------------------------------------------------------------------
-  // Build helpers
-  // -----------------------------------------------------------------------
   Widget _buildDropdown({
     required String label,
     required String value,
@@ -174,9 +153,6 @@ class _PredictionPageState extends State<PredictionPage> {
     );
   }
 
-  // -----------------------------------------------------------------------
-  // Build
-  // -----------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -191,14 +167,14 @@ class _PredictionPageState extends State<PredictionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header card
             Card(
               color: theme.colorScheme.primaryContainer,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    Icon(Icons.school, size: 40, color: theme.colorScheme.primary),
+                    Icon(Icons.school,
+                        size: 40, color: theme.colorScheme.primary),
                     const SizedBox(height: 8),
                     Text(
                       'Predict Student Math Score',
@@ -216,8 +192,6 @@ class _PredictionPageState extends State<PredictionPage> {
               ),
             ),
             const SizedBox(height: 24),
-
-            // --- 4 dropdown inputs (categorical features) ---
             _buildDropdown(
               label: 'Gender',
               value: _selectedGender,
@@ -246,8 +220,6 @@ class _PredictionPageState extends State<PredictionPage> {
               onChanged: (v) => setState(() => _selectedTestPrep = v!),
               icon: Icons.menu_book,
             ),
-
-            // --- 2 numeric text inputs ---
             _buildScoreField(
               label: 'Reading Score',
               controller: _readingScoreController,
@@ -258,10 +230,7 @@ class _PredictionPageState extends State<PredictionPage> {
               controller: _writingScoreController,
               icon: Icons.edit_note,
             ),
-
             const SizedBox(height: 8),
-
-            // --- Predict button ---
             SizedBox(
               height: 52,
               child: FilledButton.icon(
@@ -277,15 +246,12 @@ class _PredictionPageState extends State<PredictionPage> {
                       )
                     : const Icon(Icons.calculate),
                 label: Text(
-                  _isLoading ? 'Predicting...' : 'Predict Math Score',
+                  _isLoading ? 'Predicting...' : 'Predict',
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
-
             const SizedBox(height: 24),
-
-            // --- Output display field ---
             if (_errorMessage != null)
               Card(
                 color: theme.colorScheme.errorContainer,
@@ -293,8 +259,7 @@ class _PredictionPageState extends State<PredictionPage> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      Icon(Icons.error_outline,
-                          color: theme.colorScheme.error),
+                      Icon(Icons.error_outline, color: theme.colorScheme.error),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -306,7 +271,6 @@ class _PredictionPageState extends State<PredictionPage> {
                   ),
                 ),
               ),
-
             if (_predictionResult != null)
               Card(
                 color: theme.colorScheme.secondaryContainer,
